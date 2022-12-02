@@ -9,12 +9,13 @@ app.use(fileupload());
 
 // Affiche la page d'accueil sur le serv
 app.get("/", (req, res) => {
-  // fs.readdir(__dirname + "/save", (err, files) => {
-  //     for (const file of files) {
-  //         var path = path.join(__dirname, "/save", file.name)
-  //         fs.unlink(path)
-  //     }
-  // })
+  var files = fs.readdirSync(__dirname + "/save");
+
+  // Supprime tout les fichiers de save
+  for (const file of files) {
+    fs.unlinkSync(__dirname + "/save/" + file);
+  }
+
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
@@ -27,15 +28,17 @@ app.post("/api", (req, res) => {
     pathFile = path.join(__dirname, "save/");
     var height = req.body.radio;
     var width = height === 1080 ? 1920 : height === 720 ? 1280 : 960;
-    resizeImg(pathFile + file.name, width, height).then(() => {
-      res.write(
-        `<p><a id="dlBtn" href="/download/${file.name}" download>Telecharger</a></p>\n <a href="/">Revenir a l'accueil</a>`
-      );
-      res.end();
-    }).catch((err) => {
-        console.log(err)
-        res.redirect("/500")
-    });
+    resizeImg(pathFile + file.name, width, height)
+      .then(() => {
+        res.write(
+          `<p><a id="dlBtn" href="/download/${file.name}" download>Telecharger</a></p>\n <a href="/">Revenir a l'accueil</a>`
+        );
+        res.end();
+      })
+      .catch((err) => {
+        console.log(err);
+        res.redirect("/500");
+      });
   });
 });
 
