@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// Reçoit l'image uploader et renvoie la page de téléchargement
+// Reçoit l'image uploadé et renvoie la page de téléchargement
 app.post("/api", (req, res) => {
   var file = req.files.file;
   var pathFile;
@@ -48,10 +48,12 @@ app.get("/download/:fichier", (req, res) => {
   console.log(path.join(__dirname, "save/") + req.params.fichier);
 });
 
+// Page d'erreur
 app.get("/500", (req, res) => {
   res.status(500).send("t'es mort");
 });
 
+// Serveur établi sur le port 8080
 app.listen(8080, () => {
   console.log("Serveur");
 });
