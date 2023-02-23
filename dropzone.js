@@ -50,7 +50,7 @@ app.get("/download/:fichier", (req, res) => {
 
 // Page d'erreur
 app.get("/500", (req, res) => {
-  res.status(500).send("t'es mort");
+  res.status(500).send("ERREUR");
 });
 
 // Serveur établi sur le port 8080
